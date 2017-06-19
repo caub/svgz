@@ -9,7 +9,7 @@ const {stringify} = require('./utils');
 /*
 Main function
 args:
- - svgStr
+ - svgStr (svg string or svg element (jsdom))
  - optional global config in this format:
 {
 	decimals: 2, // or precision: 1e2, it's converted in this pow10 format to be used in utils#round
@@ -22,14 +22,14 @@ args:
 	otherFilter: otherOpts
 }
 
+returns optimized svgString
+
 */
 module.exports = function(svgStr, {decimals, precision=Math.pow(10, decimals||2), indent='', iterations=5}={}, filtersParams={}) {
 
+	const svg = typeof svgStr=='string' ? new JSDOM(svgStr).window.document.querySelector('svg') : svgStr;
+
 	const cfg = {precision};
-
-	const dom = new JSDOM(svgStr);
-
-	const svg = dom.window.document.querySelector('svg');
 
 	filters.forEach(filterName => {
 		const filter = require('./filters/'+filterName);
