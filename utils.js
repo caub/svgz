@@ -56,5 +56,5 @@ function stringifyChildren(el, indent='') {
 	return lines;
 }
 
-const stringifyAttr = el => (el.attributes.length?' ':'')+Array.from(el.attributes, a => `${a.name}${a.value ? `="${a.value.replace(entitiesRe, encodeEntity)}"` : ''}`).join(' ');
+const stringifyAttr = el => (el.attributes.length?' ':'')+Array.from(el.attributes, a => `${a.name}="${a.value.replace(entitiesRe, encodeEntity)}"`).join(' ');
 

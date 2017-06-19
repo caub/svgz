@@ -25,7 +25,7 @@ const svg = dom.window.document.querySelector('svg');
 
 svg.querySelectorAll('*').forEach((x,i) => assert.equal(x.id, 'e'+(i+1)))
 
-
+// console.log(svg.getAttribute('height'))
 
 
 // console.log(svg.outerHTML);
