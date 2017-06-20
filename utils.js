@@ -32,24 +32,24 @@ function encodeEntity(char) {
 
 // stringify an element
 exports.stringify = function stringify(el, indent='') {
-	const EOL = indent ? '\n' : '', tag = el.tagName.toLowerCase();
-	return [`<${tag}${stringifyAttr(el)}>`,
+	const EOL = indent ? '\n' : '';
+
+	return [`<${el.tagName}${stringifyAttr(el)}>`,
 			...stringifyChildren(el, indent).map(l => indent + l),
-	`</${tag}>`].join(EOL)
+	`</${el.tagName}>`].join(EOL)
 }
 
 // recursively stringify elements children, returns an array of lines
 function stringifyChildren(el, indent='') { 
 	const lines = [];
 	for (const c of el.children) {
-		const tag = c.tagName.toLowerCase();
 		if (!c.childElementCount) {
-			lines.push(c.textContent ? `<${tag}${stringifyAttr(c)}>${c.textContent}</${tag}>` : `<${tag}${stringifyAttr(c)}/>`);
+			lines.push(c.textContent ? `<${c.tagName}${stringifyAttr(c)}>${c.textContent}</${c.tagName}>` : `<${c.tagName}${stringifyAttr(c)}/>`);
 		} else {
 			lines.push(
-				`<${tag}${stringifyAttr(c)}>`,
+				`<${c.tagName}${stringifyAttr(c)}>`,
 				...stringifyChildren(c, indent).map(l => indent + l),
-				`</${tag}>`
+				`</${c.tagName}>`
 			);
 		}
 	}

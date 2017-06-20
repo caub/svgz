@@ -27,7 +27,7 @@ returns optimized svgString
 */
 module.exports = function(svgStr, {decimals, precision=Math.pow(10, decimals||2), indent='', iterations=5}={}, filtersParams={}) {
 
-	const svg = typeof svgStr=='string' ? new JSDOM(svgStr).window.document.querySelector('svg') : svgStr;
+	const svg = typeof svgStr==='string' || svgStr instanceof Buffer ? new JSDOM(svgStr.toString()).window.document.querySelector('svg') : svgStr;
 
 	const cfg = {precision};
 

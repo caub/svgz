@@ -20,20 +20,20 @@ const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="9.99 -10.0221 1
 
 // const svgStr = fs.readFileSync('./test/test.svg');
 
-const dom = new JSDOM(svgStr);
-const svg = dom.window.document.querySelector('svg');
+// const dom = new JSDOM(svgStr);
+// const svg = dom.window.document.querySelector('svg');
 
-svg.querySelectorAll('*').forEach((x,i) => assert.equal(x.id, 'e'+(i+1)))
+
+// svg.querySelectorAll('*').forEach((x,i) => assert.equal(x.id, 'e'+(i+1)))
 
 // console.log(svg.getAttribute('height'))
 
+const result = svgz(svgStr, {indent:'\t'});
 
-// console.log(svg.outerHTML);
-
-// console.log(stringify(svg, '\t'));
+// fs.writeFileSync('out2.svg', result);
 
 assert.equal(
-	svgz(svgStr, {indent:'\t'}),
+	result,
 	`<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 -10.02 10 1000" width="50.12%" height="20" x=".27" y="-.24">
 	<g id="e1">
 		<g id="e2">
