@@ -7,13 +7,13 @@ module.exports = function cleanupNumericValues(svg, opts, {precision}) {
 
 	for (var i=0; i<svg.attributes.length; i++) {
 		const a = svg.attributes[i];
-		svg.setAttribute(a.name, roundValues(a.value, precision, a.name=='style'?numRe:numPxRe));// a.value =  //works too
+		svg.setAttribute(a.name, roundValues(a.value, a.name=='transform'?precision*precision:precision, a.name=='style'?numRe:numPxRe));// a.value =  //works too
 	}
 	svg.querySelectorAll('*').forEach(el => {
 		for (var i=0; i<el.attributes.length; i++) {
 			const a = el.attributes[i];
 			if (a.value) {
-				el.setAttribute(a.name, roundValues(a.value, precision, a.name=='style'?numRe:numPxRe));
+				el.setAttribute(a.name, roundValues(a.value, a.name=='transform'?precision*precision:precision, a.name=='style'?numRe:numPxRe));
 			}
 		}
 	});
