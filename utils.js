@@ -1,5 +1,5 @@
 
-exports.removeLeadingZero = s => s.replace(/\b0(?=\.\d)/g, '');
+exports.removeLeadingZero = s => s.replace(/\b0(?=\.\d)/g, ''); // not to be used in path data!
 /*
 example:
 console.log(exports.removeLeadingZero('0.99 10.2 -0.5'));

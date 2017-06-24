@@ -1,4 +1,5 @@
 const {removeLeadingZero, round} = require('../utils');
+const svgPath = require('svg-path');
 
 const numRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)\b/g;
 const numPxRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)(?:px)?\b/g;
@@ -13,7 +14,19 @@ module.exports = function cleanupNumericValues(svg, opts, {precision}) {
 		for (var i=0; i<el.attributes.length; i++) {
 			const a = el.attributes[i];
 			if (a.value) {
-				el.setAttribute(a.name, roundValues(a.value, a.name=='transform'?precision*precision:precision, a.name=='style'?numRe:numPxRe));
+				if (a.name=='d') { // check also el.tagName=='path'?
+					const path = svgPath(a.value);
+					path.content.forEach(o => {
+						for (const k in o) {
+							if (typeof o[k]=='number') {
+								o[k] = round(o[k], precision);
+							}
+						}
+					});
+					el.setAttribute(a.name, path+'');
+				} else {
+					el.setAttribute(a.name, roundValues(a.value, a.name=='transform'?precision*precision:precision, a.name=='style'?numRe:numPxRe));
+				}
 			}
 		}
 	});

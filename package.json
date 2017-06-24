@@ -1,6 +1,6 @@
 {
   "name": "svgz",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Minify SVGs",
   "keywords": [
     "svg",
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "csso": "^3.1.1",
-    "jsdom": "^11.0.0"
+    "jsdom": "^11.0.0",
+    "svg-path": "^0.2.1"
   }
 }

@@ -16,7 +16,7 @@ args:
 	iterations: 3 // max number of iterations, until svg size decreases
 	indent: '' // by default, for minifying, if you put any non-empty string, it will add line returns and indent with it
 }
- - optional filters object in this format
+ - optional filters object in this format name => opts (if opts is false, this module is disabled)
 {
 	filterName: {param1: paramValue},
 	otherFilter: otherOpts
@@ -33,7 +33,8 @@ module.exports = function(svgStr, {decimals, precision=Math.pow(10, decimals||3)
 
 	filters.forEach(filterName => {
 		const filter = require('./filters/'+filterName);
-		if (filter.active) {
+		const opts = filtersParams[filterName];
+		if (filter.active && opts!==false || opts && typeof opts=='object') {
 			filter(svg, filtersParams[filterName], cfg);
 		}
 	});
