@@ -1,7 +1,5 @@
-
 const filters = require('./filters.json');
-const {JSDOM} = require('jsdom');
-const {stringify} = require('./utils');
+const {stringify, parse} = require('./utils');
 
 // doctype and XML processing instruction are ignored since one svg element is processed and returned
 // comments and any non element are also ignored, see utils#stringify
@@ -9,7 +7,7 @@ const {stringify} = require('./utils');
 /*
 Main function
 args:
- - svgStr (svg string or svg element (jsdom))
+ - svgStr (svg string or svg Element)
  - optional global config in this format:
 {
 	decimals: 2, // or precision: 1e2, it's converted in this pow10 format to be used in utils#round
@@ -27,7 +25,7 @@ returns optimized svgString
 */
 module.exports = function(svgStr, {decimals, precision=Math.pow(10, decimals||3), indent='', iterations=5}={}, filtersParams={}) {
 
-	const svg = typeof svgStr==='string' || svgStr instanceof Buffer ? new JSDOM(svgStr.toString()).window.document.querySelector('svg') : svgStr;
+	const svg = typeof svgStr==='string' || svgStr instanceof Buffer ? parse(svgStr.toString()) : svgStr;
 
 	const cfg = {precision};
 

@@ -1,4 +1,4 @@
-## SVG processor and minifier
+## SVG processor and minifier [![Build Status](https://travis-ci.org/caub/svgz.svg?branch=master)](https://travis-ci.org/caub/svgz)
 
 similar to [SVGO](https://github.com/svg/svgo)
 
