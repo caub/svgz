@@ -11,7 +11,7 @@ const svgBuf = fs.readFileSync('./test.svg');
 // const result = svgz(svgBuf, {indent:'\t', decimals:2}); // call it with different global options
 // or with specific filters options:
 const result = svgz(svgBuf, {indent:'\t', decimals:2}, {addDefaultFonts: {families: ['sans-serif']}});
-fs.writeFileSync('./out.svg', result);
+fs.writeFileSync('./test.min.svg', result);
 ```
 
 
