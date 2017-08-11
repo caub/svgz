@@ -1,7 +1,0 @@
-[
-	"removeMetadata",
-	"removeUselessIds",
-	"cleanupNumericValues",
-	"addDefaultFonts"
-	
-]

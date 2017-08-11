@@ -1,5 +1,5 @@
 
-module.exports = function removeMetadata(svg, opts) {
+module.exports = function removeMetadata(svg) {
 
 	svg.querySelectorAll('metadata').forEach(el => el.remove());
 }

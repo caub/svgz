@@ -1,4 +1,4 @@
-const filters = require('./filters.json');
+const filters = require('./filters/');
 const {stringify, parse} = require('./utils');
 
 // doctype and XML processing instruction are ignored since one svg element is processed and returned
@@ -29,13 +29,14 @@ module.exports = function(svgStr, {decimals, precision=Math.pow(10, decimals||3)
 
 	const cfg = {precision};
 
-	filters.forEach(filterName => {
-		const filter = require('./filters/'+filterName);
-		const opts = filtersParams[filterName];
-		if (filter.active && opts!==false || opts && typeof opts=='object') {
-			filter(svg, filtersParams[filterName], cfg);
+	for (const name in filters) {
+		const filter = filters[name];
+		const filterOpts = filtersParams[name];
+
+		if (filter.active && filterOpts!==false && filterOpts!==null) {
+			filter(svg, cfg, filterOpts||{});
 		}
-	});
+	}
 
 	return stringify(svg, indent);
 }

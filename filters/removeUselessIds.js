@@ -14,9 +14,8 @@ const referencesAttrs = new Set([
 	'style'
 ]);
 
-const refUrlRe = /\burl\(["']?#([^"')]*)["']?\)/;
 
-module.exports = function removeUselessIds(svg, opts) {
+module.exports = function removeUselessIds(svg) {
 
 	if (svg.querySelector('script,style')) return;
 
@@ -45,8 +44,9 @@ module.exports = function removeUselessIds(svg, opts) {
 
 	ids.forEach((exists, id) => {
 		if (!exists) {
-			const el = svg.querySelector('#'+id); // jsdom doesn't have getElementById there?
-			if (el) el.removeAttribute('id');
+			svg.querySelectorAll('#'+id).forEach(el => {
+				el.removeAttribute('id');
+			});
 		}
 	});
 }

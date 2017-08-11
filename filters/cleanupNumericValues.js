@@ -4,7 +4,7 @@ const svgPath = require('svg-path');
 const numRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)\b/g;
 const numPxRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)(?:px)?\b/g;
 
-module.exports = function cleanupNumericValues(svg, opts, {precision}) {
+module.exports = function cleanupNumericValues(svg, {precision}) {
 
 	for (var i=0; i<svg.attributes.length; i++) {
 		const a = svg.attributes[i];
@@ -32,6 +32,8 @@ module.exports = function cleanupNumericValues(svg, opts, {precision}) {
 		}
 	});
 }
+
+// don't round transform here? will be done sep? it's rounded with 6 dec by default, should be safe
 
 const roundValues = (str, precision, re) => str.replace(re, (_,x) => removeLeadingZero(round(x, precision)+''));
 

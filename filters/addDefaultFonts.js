@@ -1,5 +1,5 @@
 
-module.exports = function addDefaultFonts(svg, {families=['Helvetica','sans-serif']}={}) {
+module.exports = function addDefaultFonts(svg, opts, {families=['Helvetica','sans-serif']}={}) {
 
 	svg.querySelectorAll('[style*="font-family"]').forEach(el => {
 		if (el.style.fontFamily) {

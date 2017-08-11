@@ -94,7 +94,7 @@
 			<stop offset="0" style="stop-color:#EE2A7B"/>
 			<stop offset="1" style="stop-color:#FDB714"/>
 		</linearGradient><g transform="matrix(1, 0, 0, 1, -162.094310441495, 51.518346729467396)"><g transform="matrix(1, 0, 0, 1, 398.32476806640625, 17.59163093566896)"><g transform="matrix(1, 0, 0, 1, 1.7053025658242404e-13, 0)">
-			<g>
+			<g id="shit">
 				<linearGradient id="SVGID_83_" gradientUnits="userSpaceOnUse" x1="91.4367" y1="381.067" x2="463.4376" y2="113.0665">
 					<stop offset="0" style="stop-color:#EE2A7B"/>
 					<stop offset="1" style="stop-color:#FDB714"/>
