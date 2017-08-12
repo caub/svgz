@@ -1,18 +1,5 @@
 const {walk} = require('../utils');
-
-// https://www.w3.org/TR/SVG/linking.html#processingIRI
-const referencesAttrs = new Set([
-	'clip-path',
-	'color-profile',
-	'fill',
-	'filter',
-	'marker-start',
-	'marker-mid',
-	'marker-end',
-	'mask',
-	'stroke',
-	'style'
-]);
+const {referencesAttrs} = require('./_collections');
 
 
 module.exports = function removeUselessIds(svg) {

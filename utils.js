@@ -68,16 +68,14 @@ const stringifyAttr = el => (el.attributes.length?' ':'')+Array.from(el.attribut
 
 exports.walk = walk;
 
-function walk(node, cb) {
-	cb(node);
+function walk(node, cb, reverse) {
+	if (!reverse) cb(node);
 	var child = node.firstElementChild;
 	while(child) {
-		walk(child, cb);
+		walk(child, cb, reverse);
 		child = child.nextElementSibling;
 	}
-	// for (var i=0; i<node.childElementCount; i++) {
-	// 	walk(node.children[i], cb)
-	// }
+	if (reverse) cb(node);
 }
 
 

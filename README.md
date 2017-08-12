@@ -21,9 +21,10 @@ fs.writeFileSync('./test.min.svg', result);
 | removeMetadata | removes <metadata> elements | :heavy_check_mark: |
 | removeUselessIds | removes useless id attributes | :heavy_check_mark: |
 | removeViewBoxOffset | moves the viewBox origin to 0 0 |  |
-| moveElemsAttrsToGroup | moves elements attributes to the existing group wrapper |  |
-| moveGroupAttrsToElems | moves some group attributes to the content elements |  |
-| collapseGroups | collapses useless groups |  |
+| cleanupEmptyClass | remove class attribute when it's empty | :heavy_check_mark: |
+| moveElemsAttrsToGroup | moves elements attributes to the existing group wrapper, except transform | :heavy_check_mark: |
+| moveGroupAttrsToElems | moves some group attributes to the content elements | :heavy_check_mark: |
+| collapseGroups | collapses useless groups | :heavy_check_mark: |
 | convertTransform | collapses multiple transformations and optimizes it |  |
 | cleanupNumericValues | rounds numeric values to the fixed precision, removes default ‘px’ units | :heavy_check_mark: |
 | addDefaultFonts | ensure fallbacks font-family, useful when using web-fonts | :heavy_check_mark: |

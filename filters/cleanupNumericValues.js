@@ -8,7 +8,7 @@ module.exports = function cleanupNumericValues(svg, {precision}) {
 
 	for (var i=0; i<svg.attributes.length; i++) {
 		const a = svg.attributes[i];
-		svg.setAttribute(a.name, roundValues(a.value, a.name=='transform'?precision*precision:precision, a.name=='style'?numRe:numPxRe));// a.value =  //works too
+		svg.setAttribute(a.name, roundValues(a.value, a.name==='transform'?precision*precision:precision, a.name==='style'?numRe:numPxRe));// a.value =  //works too
 	}
 
 	walk(svg, el => {
@@ -19,14 +19,14 @@ module.exports = function cleanupNumericValues(svg, {precision}) {
 					const path = svgPath(a.value);
 					path.content.forEach(o => {
 						for (const k in o) {
-							if (typeof o[k]=='number') {
+							if (typeof o[k]==='number') {
 								o[k] = round(o[k], precision); // Math.round(o[k]*precision)/precision; //
 							}
 						}
 					});
 					el.setAttribute(a.name, path+'');
 				} else {
-					el.setAttribute(a.name, roundValues(a.value, a.name=='transform'?precision*precision:precision, a.name=='style'?numRe:numPxRe));
+					el.setAttribute(a.name, roundValues(a.value, a.name==='transform'?precision*precision:precision, a.name==='style'?numRe:numPxRe));
 				}
 			}
 		}
