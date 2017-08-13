@@ -50,8 +50,11 @@ module.exports = function moveGroupAttrsToElems(svg) {
 					g.remove();
 				}
 
-			} else if (g.nodeName=='switch' && !g.childElementCount) {
-				g.remove();
+			} else if (g.nodeName=='switch') {
+				if (!g.querySelector('switch > [systemLanguage], switch > [requiredFeatures], switch > [requiredExtensions]')) { // like doing !children.some(c => c.hasAttri..)
+					g.after(...g.children);
+					g.remove();
+				}
 			}
 
 			g = previous;
@@ -64,4 +67,4 @@ module.exports = function moveGroupAttrsToElems(svg) {
 
 module.exports.active = true;
 
-module.exports.description = 'collapses useless groups';
+module.exports.description = 'collapses/unwrap useless groups';

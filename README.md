@@ -1,6 +1,6 @@
 ## SVG processor and minifier [![Build Status](https://travis-ci.org/caub/svgz.svg?branch=master)](https://travis-ci.org/caub/svgz)
 
-similar to [SVGO](https://github.com/svg/svgo)
+similar to [SVGO](https://github.com/svg/svgo) (several filters are based from svgo plugins)
 
 ```js
 const svgz = require('svgz');
@@ -24,7 +24,7 @@ fs.writeFileSync('./test.min.svg', result);
 | cleanupEmptyClass | remove class attribute when it's empty | :heavy_check_mark: |
 | moveElemsAttrsToGroup | moves elements attributes to the existing group wrapper, except transform | :heavy_check_mark: |
 | moveGroupAttrsToElems | moves some group attributes to the content elements | :heavy_check_mark: |
-| collapseGroups | collapses useless groups | :heavy_check_mark: |
+| collapseGroups | collapses/unwrap useless groups | :heavy_check_mark: |
 | convertTransform | collapses multiple transformations and optimizes it |  |
 | cleanupNumericValues | rounds numeric values to the fixed precision, removes default ‘px’ units | :heavy_check_mark: |
 | addDefaultFonts | ensure fallbacks font-family, useful when using web-fonts | :heavy_check_mark: |
