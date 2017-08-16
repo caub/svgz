@@ -3,7 +3,7 @@
 
 const nonRendering = new Set(['linearGradient', 'radialGradient', 'pattern', 'clipPath', 'mask', 'marker', 'symbol', 'filter', 'solidColor', 'defs']);
 
-module.exports = function removeViewBoxOffset(svg) {
+module.exports = function cleanupViewBox(svg) {
 	if (!svg.hasAttribute('viewBox')) return;
 
 	var [x, y, w, h] = svg.getAttribute('viewBox').split(/[ ,]/).map(x => parseFloat(x));

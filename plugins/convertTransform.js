@@ -1,5 +1,7 @@
-const {round, removeLeadingZero, walk} = require('../utils');
+const {round, removeLeadingZero, walk, matrixToTransform, transformsMultiply} = require('../utils');
 const transformTypes = ['transform', 'gradientTransform', 'patternTransform'];
+
+const numRe = /((?:\b|[+-]?)\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g;
 
 module.exports = function convertTransform(svg, {precision}, {transformPrecision=1e5}) {
 	
@@ -7,7 +9,7 @@ module.exports = function convertTransform(svg, {precision}, {transformPrecision
 
 		transformTypes.forEach(type => {
 			if (el.hasAttribute(type)) {
-				const tfs = convert(parseTranform(el.getAttribute(type)));
+				const tfs = convert(parseTranform(el.getAttribute(type)), precision, transformPrecision);
 				if (tfs.length) {
 					el.setAttribute(type, stringifyTransform(tfs, precision, transformPrecision));
 				} else {
@@ -21,44 +23,56 @@ module.exports = function convertTransform(svg, {precision}, {transformPrecision
 }
 
 
-// module.exports.active = true;
+module.exports.active = true;
 
 module.exports.description = 'collapses multiple transformations and optimizes it';
 
+// shrink tranforms to 1
+function convert(tfs, precision, tfPrecision) {
 
-function convert(transforms) {
+	const tf = tfs.length>1 ? transformsMultiply(tfs) : tfs[0];
 
+	const decomposed = matrixToTransform(tf);
+
+	const tfs2 = stringifyTransform(decomposed, precision, tfPrecision).length<=stringifyTransform([tf], precision, tfPrecision).length ? decomposed : [tf];
+
+	return removeUseless(tfs2, precision);
 }
 
-
+const transformSplitRe = /\s*(matrix|translate|scale|rotate|skewX|skewY)\s*\(([^)]+)\)[\s,]*/
 function parseTranform(transformStr) {
 	const arr = transformStr.split(transformSplitRe); // looks like ['', 'translate', '15 3', '', 'rotate', '54', '']
-	return Array.from({length: (arr.length-1)/3}, (_,i) => ({name: arr[3*i+1], data: arr[3*i+2].match(numRe)}));
+	return Array.from({length: (arr.length-1)/3}, (_,i) => ({name: arr[3*i+1], data: arr[3*i+2].match(numRe).map(x => +x)}));
 }
+
 // console.log(parseTranform(`,, translate(15, 3) ,,, translate(13) rotate(47   -39.885486 39.782373) , `))
 
 
-function removeUseless(tfs) {
-	return tfs.filter(tf => !(
-		
-		// translate(0), rotate(0[, cx, cy]), skewX(0), skewY(0)
-		['translate', 'rotate', 'skewX', 'skewY'].includes(tf.name) && (tf.data.length===1 || tf.name==='rotate') && tf.data[0]==0  ||
+function removeUseless(tfs, precision) {
+	return tfs.filter(tf => {
 
-		// translate(0, 0)
-		tf.name==='translate' && tf.data[0]==0 && tf.data[1]==0 ||
+		const data = tf.data.map(x => Math.round(x*precision)/precision);
 
-		// scale(1)
-		tf.name==='scale' && tf.data[0]==1 && (tf.data.length===1 || tf.data[1]==1) ||
+		return !(
+			
+			// translate(0), rotate(0[, cx, cy]), skewX(0), skewY(0)
+			['translate', 'rotate', 'skewX', 'skewY'].includes(tf.name) && (data.length===1 || tf.name==='rotate') && data[0]==0  ||
 
-		// matrix(1 0 0 1 0 0)
-		tf.name==='matrix' && tf.data[0]==1 && tf.data[3]==1 && tf.data[1]==0 && tf.data[2]==0 && tf.data[4]==0 && tf.data[5]==0
-	));
+			// translate(0, 0)
+			tf.name==='translate' && data[0]==0 && data[1]==0 ||
+
+			// scale(1)
+			tf.name==='scale' && data[0]==1 && (data.length===1 || data[1]==1) ||
+
+			// matrix(1 0 0 1 0 0)
+			tf.name==='matrix' && data[0]==1 && data[3]==1 && data[1]==0 && data[2]==0 && data[4]==0 && data[5]==0
+		)
+	});
 }
 
 
-function stringifyTransform(transforms, precision, transformPrecision) {
-	
-	return transforms.map(tf => roundTransform(tf, precision, transformPrecision)).join(' ');
+function stringifyTransform(tfs, precision, tfPrecision) {
+	return tfs.map(tf => roundTransform(tf, precision, tfPrecision)).join(' ');
 }
 
 function roundTransform(tf, precision, transformPrecision) {

@@ -31,10 +31,9 @@ example:
 console.log(exports.round(-0.24580, 1e2))
 */
 
-const numRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)\b/g;
+const numRe = /\b([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g; // beware, this guy leaves the - apart
 
 exports.roundStringValues = (str, precision, re=numRe) => str.replace(re, (_,x) => removeLeadingZero(round(x, precision)));
-
 
 
 
@@ -91,7 +90,7 @@ function walk(node, cb, reverse) {
 	if (reverse) cb(node);
 }
 
-
+// not used (yet)
 exports.getWidthHeightUnit = function getWidthHeightUnit(svg) {
 	if(svg.getAttribute('viewBox')) { // try to use viewBox
 		const [,,w,h] = svg.getAttribute('viewBox').split(/[ ,]/).map(parseFloat);
@@ -140,7 +139,7 @@ exports.matrixToTransform = function matrixToTransform(tf, precision, tfPrecisio
 		if (!scaleBefore) {
 			sx = (data[0] < 0 ? -1 : 1) * Math.sqrt(data[0] * data[0] + data[2] * data[2]);
 			sy = (data[3] < 0 ? -1 : 1) * Math.sqrt(data[1] * data[1] + data[3] * data[3]);
-			tfs.push({ name: 'scale', data: [sx, sy] });
+			tfs.push({ name: 'scale', data: sx == sy ? [sx] : [sx, sy] });
 		}
 		var rotate = [Math.round(Math.acos(data[0]/sx)*180/Math.PI*precision)/precision * (data[1] * sy < 0 ? -1 : 1)];
 
@@ -158,14 +157,14 @@ exports.matrixToTransform = function matrixToTransform(tf, precision, tfPrecisio
 				sin = data[1] / (scaleBefore ? sx : sy),
 				x = data[4] * (scaleBefore || sy),
 				y = data[5] * (scaleBefore || sx),
-				denom = (Math.pow(1 - cos, 2) + Math.pow(sin, 2)) * (scaleBefore || sx * sy);
+				denom = ((1-cos)*(1-cos) + sin*sin) * (scaleBefore || sx * sy);
 			rotate.push(((1 - cos) * x - sin * y) / denom);
 			rotate.push(((1 - cos) * y + sin * x) / denom);
 		}
 
 	// Too many transformations, return original matrix if it isn't just a scale/translate
 	} else if (data[1] || data[2]) {
-		return tf;
+		return [tf];
 	}
 
 	if (scaleBefore && (sx != 1 || sy != 1) || !tfs.length) tfs.push({
@@ -175,6 +174,23 @@ exports.matrixToTransform = function matrixToTransform(tf, precision, tfPrecisio
 
 	return tfs;
 }
+
+
+
+
+// Multiply transforms into one.
+
+exports.transformsMultiply = function(tfs) {
+
+	// convert transforms objects to the matrices
+	const datas = tfs.map(tf => tf.name === 'matrix' ? tf.data : transformToMatrix(tf));
+
+	// multiply all matrices into one
+	return {
+		name: 'matrix',
+		data: datas.reduce(multiplyTransformMatrices)
+	};
+};
 
 
 function transformToMatrix(tf) {

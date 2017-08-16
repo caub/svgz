@@ -7,4 +7,4 @@ module.exports = function removeMetadata(svg) {
 
 module.exports.active = true;
 
-module.exports.description = 'removes <metadata> elements';
+module.exports.description = 'removes `<metadata>` elements';

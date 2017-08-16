@@ -1,8 +1,6 @@
 const assert = require('assert');
 const {round, removeLeadingZero, roundStringValues, stringify, parse} = require('../utils');
 
-console.log(stringify.name)
-
 assert.deepEqual(
 	[ 0.99, 10.2, 0, 0, -0.5, 100.1, -900.045 ].map(removeLeadingZero),
 	[ '.99', 10.2, 0, 0, '-.5', 100.1, -900.045 ]
@@ -20,7 +18,7 @@ assert.equal(
 
 // parse / stringify
 
-const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="9.99 -10.0221 10 1e3" width="50.124%" height="20" x="0.266" y="-0.235">window
+const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="9.99 -10.0221 10 1e3" width="50.124%" height="20" x="0.266" y="-0.235">
 		<g id="e1">
 			<g id="e2">
 				<rect id="e3" width="96" heigth="16"/>

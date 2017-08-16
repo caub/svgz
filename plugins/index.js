@@ -1,8 +1,8 @@
 // order matters
 
 exports.removeMetadata = require('./removeMetadata');
-exports.removeUselessIds = require('./removeUselessIds');
-exports.removeViewBoxOffset = require('./removeViewBoxOffset');
+exports.cleanupIds = require('./cleanupIds');
+exports.cleanupViewBox = require('./cleanupViewBox');
 
 exports.cleanupEmptyClass = require('./cleanupEmptyClass');
 

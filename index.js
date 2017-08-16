@@ -1,4 +1,4 @@
-const filters = require('./filters/');
+const plugins = require('./plugins/');
 const {stringify, parse} = require('./utils');
 
 // doctype and XML processing instruction are ignored since one svg element is processed and returned
@@ -14,27 +14,27 @@ args:
 	iterations: 3 // max number of iterations, until svg size decreases
 	indent: '' // by default, for minifying, if you put any non-empty string, it will add line returns and indent with it
 }
- - optional filters object in this format name => opts (if opts is false, this module is disabled)
+ - optional plugins object in this format name => opts (if opts is false, this module is disabled)
 {
-	filterName: {param1: paramValue},
-	otherFilter: otherOpts
+	pluginName: {param1: paramValue},
+	otherPlugin: otherOpts
 }
 
 returns optimized svgString
 
 */
-module.exports = function(svgStr, {decimals, precision=Math.pow(10, decimals||3), indent='', iterations=5}={}, filtersParams={}) {
+module.exports = function(svgStr, {decimals, precision=Math.pow(10, decimals||3), indent='', iterations=5}={}, pluginsParams={}) {
 
 	const svg = typeof svgStr==='string' || svgStr instanceof Buffer ? parse(svgStr.toString()) : svgStr;
 
 	const cfg = {precision};
 
-	for (const name in filters) {
-		const filter = filters[name];
-		const filterOpts = filtersParams[name];
+	for (const name in plugins) {
+		const plugin = plugins[name];
+		const pluginOpts = pluginsParams[name];
 
-		if (filter.active && filterOpts!==false && filterOpts!==null) {
-			filter(svg, cfg, filterOpts||{});
+		if (plugin.active && pluginOpts!==false && pluginOpts!==null) {
+			plugin(svg, cfg, pluginOpts||{});
 		}
 	}
 

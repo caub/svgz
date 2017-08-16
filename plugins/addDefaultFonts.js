@@ -14,13 +14,15 @@ module.exports = function addDefaultFonts(svg, opts, {families=['Helvetica','san
 	});
 }
 
+module.exports.active = false;
+
+module.exports.description = 'ensure fallbacks font-family, useful when using web-fonts';
+
+
+
 const formatFamily = (fontFamily, defaultFamilies) =>
 	[...new Set(fontFamily.split(/\s*,\s*/).filter(x=>x).concat(defaultFamilies))].join(',');
 
-
-module.exports.active = true;
-
-module.exports.description = 'ensure fallbacks font-family, useful when using web-fonts';
 
 /*
 ex: <text style="font-family:'Open Sans';font-weight:600">Test</text>

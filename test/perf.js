@@ -5,7 +5,15 @@ const svgz = require('../');
 const SVGO = require('svgo');
 const svgo = new SVGO({floatPrecision:3, multipass:true, plugins: [
 	{removeUselessStrokeAndFill: {removeNone:true}},
-	{convertShapeToPath: false}
+	{convertShapeToPath: false},
+	{convertPathData: false},
+	{mergePaths: false},
+	{minifyStyles: false},
+	{removeEmptyAttrs: false},
+	{removeEmptyContainers: false},
+	{removeEmptyText: false},
+	{removeHiddenElems: false},
+	{removeNonInheritableGroupAttrs: false}
 ]});
 
 // const svgStr = fs.readFileSync('/home/caub/Downloads/money.SVG');
@@ -27,19 +35,19 @@ console.log('svgz', result.length);
 
 /*
 on money.svg (1MB)
-svgz: 23883.344ms
-svgz 939387
+svgz: 23511.927ms
+svgz 930384
 svgo: 32743.954ms
-svgo 425684
+svgo 977025  425684 (with all plugins)
 */
 
 
 /*
 on test.svg:
-svgz: 347.330ms
-svgz 24778
-svgo: 837.271ms
-svgo 22353
+svgz: 380.529ms
+svgz 24983
+svgo: 706.678ms
+svgo 23376
 */
 
 // console.log(result);

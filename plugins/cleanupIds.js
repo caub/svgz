@@ -1,8 +1,9 @@
 const {walk} = require('../utils');
 const {referencesAttrs} = require('./_collections');
 
+// todo minify ids when they are 4+ chars
 
-module.exports = function removeUselessIds(svg) {
+module.exports = function cleanupIds(svg) {
 
 	if (svg.querySelector('script,style')) return;
 
@@ -41,4 +42,4 @@ module.exports = function removeUselessIds(svg) {
 
 module.exports.active = true;
 
-module.exports.description = 'removes useless id attributes';
+module.exports.description = "removes unused id's attributes";
