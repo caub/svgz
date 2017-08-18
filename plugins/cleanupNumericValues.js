@@ -15,7 +15,7 @@ module.exports = function cleanupNumericValues(svg, {precision}) {
 		for (var i=0; i<el.attributes.length; i++) {
 			const a = el.attributes[i];
 			if (a.value) {
-				if (a.name=='d') { // check also el.tagName=='path'?
+				if (a.name=='d') { // check also el.tagName=='path'? // TODO process pathdata apart (minify will be there)
 					const path = svgPath(a.value);
 					path.content.forEach(o => {
 						for (const k in o) {

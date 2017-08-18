@@ -38,4 +38,4 @@ module.exports = function cleanupViewBox(svg) {
 
 module.exports.active = false;
 
-module.exports.description = 'moves the viewBox origin to 0 0';
+module.exports.description = 'moves the viewBox origin to 0 0 (and adjust transform on children)';

@@ -3,7 +3,7 @@ const transformTypes = ['transform', 'gradientTransform', 'patternTransform'];
 
 const numRe = /((?:\b|[+-]?)\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g;
 
-module.exports = function convertTransform(svg, {precision}, {transformPrecision=1e5}) {
+module.exports = function convertTransform(svg, {precision, transformPrecision=1e5}) {
 	
 	svg.querySelectorAll('[transform], [gradientTransform], [patternTransform]').forEach(el => {
 

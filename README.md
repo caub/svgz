@@ -9,10 +9,14 @@ const fs = require('fs');
 const svgBuf = fs.readFileSync('./test.svg');
 // const result = svgz(svgBuf); // call it with default options
 // const result = svgz(svgBuf, {indent:'\t', decimals:3}); // call it with different global options
-// and with specific plugins options in 3rd argument:
-const result = svgz(svgBuf, {indent:'\t', decimals:3}, {
-	addDefaultFonts: {families: ['sans-serif']},
-	removeMetadata: false // disable it
+// and with specific plugins options:
+const result = svgz(svgBuf, {
+	indent:'\t', 
+	decimals:3,
+	plugins: {
+		addDefaultFonts: {families: ['sans-serif']},
+		removeMetadata: false // disable this one
+	}
 });
 fs.writeFileSync('./test.min.svg', result);
 ```
@@ -22,8 +26,8 @@ fs.writeFileSync('./test.min.svg', result);
 | name | description | active by default |
 | --- | --- | :---: |
 | removeMetadata | removes `<metadata>` elements | :heavy_check_mark: |
-| cleanupIds | removes useless id attributes | :heavy_check_mark: |
-| cleanupViewBox | moves the viewBox origin to 0 0 |  |
+| cleanupIds | removes unused id's attributes | :heavy_check_mark: |
+| cleanupViewBox | moves the viewBox origin to 0 0 (and adjust transform on children) |  |
 | cleanupEmptyClass | remove class attribute when it's empty | :heavy_check_mark: |
 | moveElemsAttrsToGroup | moves up attributes (except transform) to a group wrapper | :heavy_check_mark: |
 | moveGroupAttrsToElems | moves some group attributes to the content elements | :heavy_check_mark: |
