@@ -1,5 +1,5 @@
 const assert = require('assert');
-const {round, removeLeadingZero, roundStringValues, stringify, parse} = require('../utils');
+const {round, removeLeadingZero, roundStringValues, stringify, parse, stringifyNumbers} = require('../utils');
 
 assert.deepEqual(
 	[ 0.99, 10.2, 0, 0, -0.5, 100.1, -900.045 ].map(removeLeadingZero),
@@ -14,6 +14,18 @@ assert.equal(
 	'11.04 545.61 388.45 35.4'
 );
 
+
+assert.equal(stringifyNumbers([ 1 ]),       '1');
+assert.equal(stringifyNumbers([ 1, 2, 3 ]), '1,2,3');
+
+assert.equal(stringifyNumbers([ 1.2 ]),          '1.2');
+assert.equal(stringifyNumbers([ 1.2, .2 ]),      '1.2.2');
+assert.equal(stringifyNumbers([ 1.2, .3, 4.5 ]), '1.2.3,4.5');
+
+assert.equal(stringifyNumbers([ -1 ]),        '-1');
+assert.equal(stringifyNumbers([ -1, -2, 3 ]), '-1-2,3');
+assert.equal(stringifyNumbers([ 1, -2, -3 ]), '1-2-3');
+assert.equal(stringifyNumbers([ 1, -2, 3 ]),  '1-2,3');
 
 
 // parse / stringify

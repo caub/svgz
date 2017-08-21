@@ -44,8 +44,8 @@ svgo 977025  425684 (with all plugins)
 
 /*
 on test.svg:
-svgz: 380.529ms
-svgz 24983
+svgz: 301.661ms
+svgz 24971
 svgo: 706.678ms
 svgo 23376
 */

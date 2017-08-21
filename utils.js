@@ -36,6 +36,53 @@ const numRe = /\b([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g; // beware, this guy leav
 exports.roundStringValues = (str, precision, re=numRe) => str.replace(re, (_,x) => removeLeadingZero(round(x, precision)));
 
 
+// function toExponential(x) { // like x.toExponential().replace(/e\+/, 'e')
+// 	let n = Math.abs(x);
+// 	if (n===0) return 0;
+// 	const p = Math.floor(Math.log10(n));
+// 	if (p>0) n = n / (10**p);
+// 	else if (p<0) n = n * (10**-p);
+// 	return (x<0 ? '-' : '')+ n + 'e' + p;
+// }
+
+exports.stringifyNumbers = numbers => {
+	if (!numbers.length) return '';
+
+	const first = numbers[0];
+	let result = first > -1 && first < 0 ? (first+'').slice(2) :
+		first > 0 && first < 1 ? (first+'').slice(1) :
+		first + '';
+
+	let seenFloat = !Number.isInteger(first);
+	// let seenExponent = false;
+
+	for (let i = 1; i < numbers.length; i++) {
+		const x = numbers[i];
+		if (x < 0) {
+			if (x > -1) {
+				result += '-' + (x+'').slice(2);
+				seenFloat = true;
+			} else {
+				result += x;
+				seenFloat = !Number.isInteger(x);
+			}
+		} else {
+			if (x > 0 && x < 1) {
+				if (!seenFloat) {
+					result += ','
+				}
+				result += (x+'').slice(1);
+				seenFloat = true;
+			} else {
+				result += ',' + x;
+				seenFloat = !Number.isInteger(x);
+			}
+		}
+	}
+	return result;
+};
+
+
 
 const entities = {
 	'"': "'"
