@@ -4,22 +4,56 @@ const fs = require('fs');
 const svgz = require('../');
 const SVGO = require('svgo');
 const svgo = new SVGO({floatPrecision:3, multipass:true, plugins: [
-	{removeUselessStrokeAndFill: {removeNone:true}},
-	{convertShapeToPath: false},
-	{convertPathData: false},
-	{mergePaths: false},
-	{minifyStyles: false},
-	{removeEmptyAttrs: false},
-	{removeEmptyContainers: false},
-	{removeEmptyText: false},
-	{removeHiddenElems: false},
-	{removeNonInheritableGroupAttrs: false}
+  { removeDoctype: false },
+  // { removeXMLProcInst: false },
+  { removeComments: false },
+  // { removeMetadata: false },
+  { removeXMLNS: false },
+  { removeEditorsNSData: false },
+  { cleanupAttrs: false },
+  { minifyStyles: false },
+  { convertStyleToAttrs: false },
+  // { cleanupIDs: false },
+  { removeRasterImages: false },
+  { removeUselessDefs: false },
+  // { cleanupNumericValues: false },
+  // { cleanupListOfValues: false },
+  { convertColors: false },
+  { removeUnknownsAndDefaults: false },
+  { removeNonInheritableGroupAttrs: false },
+  { removeUselessStrokeAndFill: false },
+  { removeViewBox: false },
+  { cleanupEnableBackground: false },
+  { removeHiddenElems: false },
+  { removeEmptyText: false },
+  { convertShapeToPath: false },
+  // { moveElemsAttrsToGroup: false },
+  // { moveGroupAttrsToElems: false },
+  // { collapseGroups: false },
+  { convertPathData: false },
+  // { convertTransform: false },
+  // { removeEmptyAttrs: false },
+  { removeEmptyContainers: false },
+  { mergePaths: false },
+  { removeUnusedNS: false },
+  { transformsWithOnePath: false },
+  { sortAttrs: false },
+  { removeTitle: false },
+  { removeDesc: false },
+  { removeDimensions: false },
+  { removeAttrs: false },
+  { removeElementsByAttr: false },
+  { addClassesToSVGElement: false },
+  { removeStyleElement: false },
+  { removeScriptElement: false },
+  { addAttributesToSVGElement: false }
 ]});
 
 // const svgStr = fs.readFileSync('/home/caub/Downloads/money.SVG');
 const svgStr = fs.readFileSync(__dirname+'/svg/test.svg');
 
 // const svg = parse(svgStr);
+console.log('initial', svgStr.length)
 
 console.time('svgo');
 svgo.optimize(svgStr).then(res => {
@@ -29,25 +63,38 @@ svgo.optimize(svgStr).then(res => {
 
 
 console.time('svgz');
-const result = svgz(svgStr, {indent:'\t', precision:1e3});
+const result = svgz(svgStr, {indent:'', precision:1e3, plugins: {
+  // removeMetadata: false,
+  // cleanupIds: false,
+  cleanupViewBox: false,
+  // moveElemsAttrsToGroup: false,
+  // moveGroupAttrsToElems: false,
+  // collapseGroups: false,
+  // convertTransform: false,
+  // cleanupNumericValues: false,
+  addDefaultFonts: false
+}});
 console.timeEnd('svgz');
 console.log('svgz', result.length);
 
 /*
 on money.svg (1MB)
-svgz: 23511.927ms
-svgz 930384
-svgo: 32743.954ms
-svgo 977025  425684 (with all plugins)
+initial 1011684
+svgz: 23007.073ms
+svgz 914535
+svgo: 30918.396ms
+svgo 989458
+svgo 425684 (with all plugins)
 */
 
 
 /*
 on test.svg:
-svgz: 301.661ms
-svgz 24971
-svgo: 706.678ms
-svgo 23376
+initial 28106
+svgz: 373.342ms
+svgz 23761
+svgo: 661.534ms
+svgo 24860
 */
 
 // console.log(result);

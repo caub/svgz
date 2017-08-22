@@ -4,8 +4,6 @@ exports.removeMetadata = require('./removeMetadata');
 exports.cleanupIds = require('./cleanupIds');
 exports.cleanupViewBox = require('./cleanupViewBox');
 
-exports.cleanupEmptyClass = require('./cleanupEmptyClass');
-
 exports.moveElemsAttrsToGroup = require('./moveElemsAttrsToGroup');
 exports.moveGroupAttrsToElems = require('./moveGroupAttrsToElems');
 exports.collapseGroups = require('./collapseGroups');

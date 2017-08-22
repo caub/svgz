@@ -8,7 +8,11 @@ module.exports = function cleanupNumericValues(svg, {precision}) {
 
 	for (var i=0; i<svg.attributes.length; i++) {
 		const a = svg.attributes[i];
-		svg.setAttribute(a.name, roundStringValues(a.value, precision, a.name==='style'?numRe:numPxRe));// a.value =  //works too
+		if (a.value) {
+			svg.setAttribute(a.name, roundStringValues(a.value, precision, a.name==='style'?numRe:numPxRe));// a.value =  //works too
+		} else {
+			svg.removeAttribute(a.name);
+		}
 	}
 
 	walk(svg, el => {
@@ -23,6 +27,8 @@ module.exports = function cleanupNumericValues(svg, {precision}) {
 				} else if (a.name!=='transform') { // already treated in convertTransform
 					el.setAttribute(a.name, roundStringValues(a.value, precision, a.name==='style'?numRe:numPxRe));
 				}
+			} else {
+				el.removeAttribute(a.name);
 			}
 		}
 	});
@@ -31,6 +37,6 @@ module.exports = function cleanupNumericValues(svg, {precision}) {
 
 module.exports.active = true;
 
-module.exports.description = 'rounds numeric values to the fixed precision, removes default ‘px’ units';
+module.exports.description = 'rounds numeric values to the fixed precision, removes default ‘px’ units, and empty attributes';
 
 

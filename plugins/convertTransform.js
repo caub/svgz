@@ -5,7 +5,7 @@ const numRe = /((?:\b|[+-]?)\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g;
 
 module.exports = function convertTransform(svg, {precision, transformPrecision=1e5}) {
 	
-	svg.querySelectorAll('[transform], [gradientTransform], [patternTransform]').forEach(el => {
+	svg.querySelectorAll(transformTypes.map(t => `[${t}]`)).forEach(el => {
 
 		transformTypes.forEach(type => {
 			if (el.hasAttribute(type)) {
@@ -17,7 +17,7 @@ module.exports = function convertTransform(svg, {precision, transformPrecision=1
 				}
 			}
 		});
-
+		
 	});
 
 }
