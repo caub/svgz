@@ -30,7 +30,7 @@ const svgo = new SVGO({floatPrecision:3, multipass:true, plugins: [
   // { moveElemsAttrsToGroup: false },
   // { moveGroupAttrsToElems: false },
   // { collapseGroups: false },
-  { convertPathData: false },
+  // { convertPathData: false },
   // { convertTransform: false },
   // { removeEmptyAttrs: false },
   { removeEmptyContainers: false },
@@ -70,6 +70,7 @@ const result = svgz(svgStr, {indent:'', precision:1e3, plugins: {
   // moveElemsAttrsToGroup: false,
   // moveGroupAttrsToElems: false,
   // collapseGroups: false,
+  // convertPathData: false,
   // convertTransform: false,
   // cleanupNumericValues: false,
   addDefaultFonts: false
@@ -91,10 +92,10 @@ svgo 425684 (with all plugins)
 /*
 on test.svg:
 initial 28106
-svgz: 373.342ms
+svgz: 345.852ms
 svgz 23761
-svgo: 661.534ms
-svgo 24860
+svgo: 713.234ms
+svgo 23760
 */
 
 // console.log(result);

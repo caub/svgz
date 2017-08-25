@@ -15,8 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "csso": "^3.1.1",
-    "jsdom": "^11.1.0",
-    "path-data-polyfill": "github:caub/path-data-polyfill.js#test"
+    "jsdom": "^11.1.0"
   },
   "devDependencies": {
     "svgo": "github:svg/svgo"

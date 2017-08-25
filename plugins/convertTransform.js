@@ -1,7 +1,5 @@
-const {round, removeLeadingZero, walk, matrixToTransform, transformsMultiply} = require('../utils');
+const {round, removeLeadingZero, walk, matrixToTransform, transformsMultiply, parseNumbers} = require('../utils');
 const transformTypes = ['transform', 'gradientTransform', 'patternTransform'];
-
-const numRe = /((?:\b|[+-]?)\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g;
 
 module.exports = function convertTransform(svg, {precision, transformPrecision=1e5}) {
 	
@@ -42,7 +40,7 @@ function convert(tfs, precision, tfPrecision) {
 const transformSplitRe = /\s*(matrix|translate|scale|rotate|skewX|skewY)\s*\(([^)]+)\)[\s,]*/
 function parseTranform(transformStr) {
 	const arr = transformStr.split(transformSplitRe); // looks like ['', 'translate', '15 3', '', 'rotate', '54', '']
-	return Array.from({length: (arr.length-1)/3}, (_,i) => ({name: arr[3*i+1], data: arr[3*i+2].match(numRe).map(x => +x)}));
+	return Array.from({length: (arr.length-1)/3}, (_,i) => ({name: arr[3*i+1], data: parseNumbers(arr[3*i+2])}));
 }
 
 // console.log(parseTranform(`,, translate(15, 3) ,,, translate(13) rotate(47   -39.885486 39.782373) , `))

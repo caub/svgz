@@ -1,8 +1,7 @@
 const {round, roundStringValues, walk, stringifyNumbers} = require('../utils');
-const {parsePathData} = require('path-data-polyfill/polyfill');
 
 const numRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)\b/g;
-const numPxRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)(?:px)?\b/g;
+const numPxRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)(?:px|pt|pc|mm|cm|m|in|ft|em|ex|%)?\b/g;
 
 module.exports = function cleanupNumericValues(svg, {precision}) {
 
@@ -18,17 +17,10 @@ module.exports = function cleanupNumericValues(svg, {precision}) {
 	walk(svg, el => {
 		for (var i=0; i<el.attributes.length; i++) {
 			const a = el.attributes[i];
-			if (a.value) {
-				if (a.name=='d') { // check also el.tagName=='path'? // TODO process pathdata apart (minify will be there)
-					const pathData = parsePathData(a.value);
-					const segs = pathData.map(seg => seg.type + stringifyNumbers((seg.values || []).map(x => round(x, precision))));
-
-					el.setAttribute(a.name, segs.join(''));
-				} else if (a.name!=='transform') { // already treated in convertTransform
-					el.setAttribute(a.name, roundStringValues(a.value, precision, a.name==='style'?numRe:numPxRe));
-				}
-			} else {
+			if (!a.value) {
 				el.removeAttribute(a.name);
+			} else if (a.name!=='transform' && a.name!=='d') { // already treated in convertTransform/PathData
+				el.setAttribute(a.name, roundStringValues(a.value, precision, a.name==='style'?numRe:numPxRe));
 			}
 		}
 	});

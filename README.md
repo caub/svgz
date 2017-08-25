@@ -31,6 +31,7 @@ fs.writeFileSync('./test.min.svg', result);
 | moveElemsAttrsToGroup | moves up attributes (except transform) to a group wrapper | :heavy_check_mark: |
 | moveGroupAttrsToElems | moves some group attributes to the content elements | :heavy_check_mark: |
 | collapseGroups | collapses/unwrap useless groups | :heavy_check_mark: |
+| convertPathData | optimizes path data: writes in shorter form, applies transformations | :heavy_check_mark: |
 | convertTransform | collapses multiple transformations and optimizes it | :heavy_check_mark: |
 | cleanupNumericValues | rounds numeric values to the fixed precision, removes default ‘px’ units, and empty attributes | :heavy_check_mark: |
 | addDefaultFonts | ensure fallbacks font-family, useful when using web-fonts |  |
@@ -40,5 +41,6 @@ fs.writeFileSync('./test.min.svg', result);
 - minifyStyles
 - removeUselessStrokeAndFills
 - removeEmptyTexts
-- [ ] use getPathData (+polyfill) to make code fully isomorphic
+- pathData
+- merge tranform in shapes too (circle, rect, line..) when possible and shorter
 - ... most svgo plugins and tests

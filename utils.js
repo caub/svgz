@@ -31,10 +31,45 @@ example:
 console.log(exports.round(-0.24580, 1e2))
 */
 
-const numRe = /\b([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g; // beware, this guy leaves the - apart
+exports.roundStringValues = (str, precision, re=/\b([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g) => str.replace(re, (_,x) => removeLeadingZero(round(x, precision)));
 
-exports.roundStringValues = (str, precision, re=numRe) => str.replace(re, (_,x) => removeLeadingZero(round(x, precision)));
 
+const numRe = /((?:\b|[+-]?)\d*\.?\d+(?:[eE][+-]?\d+)?)\b/g;
+
+const parseNumbers = s => s.match(numRe).map(x => +x);
+exports.parseNumbers = parseNumbers;
+
+const segLengths = {h:1, v:1, b:1, m:2, l:2, t:2, q:4, s:4, c:6, a:7};
+
+exports.parsePathData = function(s) {
+	const parts = s.split(/([mlhvcsqtarbz])\s*/i);
+	// parts[0] and parts[parts.length-1] are wsp
+	if (parts[1][0] !== 'm' && parts[1][0] !== 'M') return [];
+
+	const data = [];
+
+	for (var i=1; i<parts.length-1; i+=2) {
+		const type = parts[i][0],
+			_type = type.toLowerCase();
+
+		if (_type==='z') {
+			data.push({type: _type});
+		} else {
+			const values = parseNumbers(parts[i+1]);
+			const vlen = segLengths[_type] || Math.floor(values.length/2)*2; // treat rR
+
+			const len = Math.floor(values.length/vlen)*vlen;
+			// handle repeated values and skip remaining: l10,10 20,15 25 -> l10,10l20,15
+			for (var j=0; j<len; j+=vlen) {
+				data.push({
+					type: j===0 ? type : type==='m' ? 'l' : type==='M' ? 'M' : type,
+					values: values.slice(j, j+vlen)
+				})
+			}
+		}
+	}
+	return data;
+};
 
 // function toExponential(x) { // like x.toExponential().replace(/e\+/, 'e')
 // 	let n = Math.abs(x);
@@ -276,4 +311,46 @@ function multiplyTransformMatrices(a, b) {
 		a[0] * b[4] + a[2] * b[5] + a[4],
 		a[1] * b[4] + a[3] * b[5] + a[5]
 	];
+}
+
+// convert points data to relative coordinates
+// previous x,y coords, if any, are stored hackily in data[-1] and data[-2]
+exports.toRelative = function (data) {
+	const newData = Array(data.length);
+	for (var i = 0; i < data.length; i+=2) {
+		newData[i] = data[i] - (data[i-2] || 0);
+		newData[i+1] = data[i+1] - (data[i-1] || 0);
+	}
+	newData[-2] = data[data.length-2];
+	newData[-1] = data[data.length-1];
+	return newData;
+}
+
+// convert points data to relative coordinates, and round
+// previous x,y coords, if any, are stored hackily in data[-1] and data[-2]
+exports.toRelativeRound = function (data, precision) {
+	const newData = Array(data.length);
+	var ex=0, ey = 0; // cumulative rounding error, it should not exceed [-error/2, error/2] 
+	for (var i = 0; i < data.length; i+=2) {
+		const dx = round(data[i] - (data[i-2] || 0) + ex, precision);
+		const dy = round(data[i+1] - (data[i-1] || 0) + ey, precision);
+		newData[i] = dx;
+		newData[i+1] = dy;
+		ex = data[i] - (data[i-2] || 0) + ex - dx;
+		ey = data[i+1] - (data[i-1] || 0) + ey - dy;
+	}
+	newData[-2] = data[data.length-2];
+	newData[-1] = data[data.length-1];
+	return newData;
+}
+
+// convert points data to absolute coordinates
+// previous (absolute) x,y coords, if any, are stored hackily in data[-1] and data[-2]
+exports.toAbsolute = function (data) {
+	const newData = Array(data.length);
+	for (var i = 0; i < data.length; i+=2) {
+		newData[i] = data[i] + (newData[i-2] || data[i-2] || 0);
+		newData[i+1] = data[i+1] + (newData[i-1] || data[i-1] || 0);
+	}
+	return newData;
 }

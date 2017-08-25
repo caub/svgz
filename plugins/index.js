@@ -7,6 +7,7 @@ exports.cleanupViewBox = require('./cleanupViewBox');
 exports.moveElemsAttrsToGroup = require('./moveElemsAttrsToGroup');
 exports.moveGroupAttrsToElems = require('./moveGroupAttrsToElems');
 exports.collapseGroups = require('./collapseGroups');
+exports.convertPathData = require('./convertPathData');
 exports.convertTransform = require('./convertTransform');
 
 exports.cleanupNumericValues = require('./cleanupNumericValues');
