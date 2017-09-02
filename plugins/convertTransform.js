@@ -1,4 +1,4 @@
-const {round, removeLeadingZero, walk, matrixToTransform, transformsMultiply, parseNumbers} = require('../utils');
+const {round, removeLeadingZero, matrixToTransform, transformsMultiply, parseNumbers} = require('../util');
 const transformTypes = ['transform', 'gradientTransform', 'patternTransform'];
 
 module.exports = function convertTransform(svg, {precision, transformPrecision=1e5}) {

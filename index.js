@@ -1,5 +1,5 @@
 const PLUGINS = require('./plugins/');
-const {stringify, parse} = require('./utils');
+const {stringify, parse} = require('./util');
 
 // doctype and XML processing instruction are ignored since one svg element is processed and returned
 // comments and any non element are also ignored, see utils#stringify

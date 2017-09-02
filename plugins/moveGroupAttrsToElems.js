@@ -1,5 +1,4 @@
-const {walk} = require('../utils');
-const {referencesAttrs} = require('./_collections');
+const {walk, referencesAttrs} = require('../util');
 
 const pathElemsRe = /^(g|text|path|glyph|missing-glyph)$/;
 

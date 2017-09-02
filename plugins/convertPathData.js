@@ -1,4 +1,4 @@
-const {round, parsePathData, stringifyNumbers} = require('../utils');
+const {round, parsePathData, stringifyNumbers, toRelative} = require('../util');
 
 module.exports = function convertPathData(svg, {precision}) {
 
@@ -32,3 +32,9 @@ module.exports = function convertPathData(svg, {precision}) {
 module.exports.active = true;
 
 module.exports.description = 'optimizes path data: writes in shorter form, applies transformations';
+
+
+// convert all path to relative commands only
+function toRelativePath(path) {
+	toRelative
+}

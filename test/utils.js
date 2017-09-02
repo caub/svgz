@@ -3,7 +3,7 @@ const {round, removeLeadingZero, roundStringValues,
 	stringify, parse, stringifyNumbers,
 	toAbsolute, toRelativeRound, toRelative,
 	parsePathData
-} = require('../utils');
+} = require('../util');
 
 assert.deepEqual(
 	[ 0.99, 10.2, 0, 0, -0.5, 100.1, -900.045 ].map(removeLeadingZero),

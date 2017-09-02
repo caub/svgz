@@ -1,6 +1,6 @@
 ## SVG processor and minifier [![Build Status](https://travis-ci.org/caub/svgz.svg?branch=master)](https://travis-ci.org/caub/svgz)
 
-similar to [SVGO](https://github.com/svg/svgo) (many plugins are based from svgo)
+similar to [SVGO](https://github.com/svg/svgo) (most plugins are based from svgo)
 
 ```js
 const svgz = require('svgz');
@@ -11,8 +11,8 @@ const svgBuf = fs.readFileSync('./test.svg');
 // const result = svgz(svgBuf, {indent:'\t', decimals:3}); // call it with different global options
 // and with specific plugins options:
 const result = svgz(svgBuf, {
-	indent:'\t', 
-	decimals:3,
+	indent: '\t', 
+	decimals: 3,
 	plugins: {
 		addDefaultFonts: {families: ['sans-serif']},
 		removeMetadata: false // disable this one
@@ -23,7 +23,7 @@ fs.writeFileSync('./test.min.svg', result);
 
 ### Plugins
 
-| name | description | active by default |
+| name | description | active |
 | --- | --- | :---: |
 | removeMetadata | removes `<metadata>` elements | :heavy_check_mark: |
 | cleanupIds | removes unused id's attributes | :heavy_check_mark: |

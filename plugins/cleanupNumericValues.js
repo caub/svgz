@@ -1,4 +1,4 @@
-const {round, roundStringValues, walk, stringifyNumbers} = require('../utils');
+const {round, roundStringValues, walk, stringifyNumbers} = require('../util');
 
 const numRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)\b/g;
 const numPxRe = /\b([\-+]?\d*\.?\d+(?:[eE][\-+]?\d+)?)(?:px|pt|pc|mm|cm|m|in|ft|em|ex|%)?\b/g;

@@ -38,7 +38,7 @@ const svgo = new SVGO({floatPrecision:3, multipass:true, plugins: [
   { removeUnusedNS: false },
   { transformsWithOnePath: false },
   { sortAttrs: false },
-  { removeTitle: false },
+  // { removeTitle: false },
   { removeDesc: false },
   { removeDimensions: false },
   { removeAttrs: false },

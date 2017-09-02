@@ -1,5 +1,4 @@
-const {walk} = require('../utils');
-const {referencesAttrs} = require('./_collections');
+const {walk, referencesAttrs} = require('../util');
 
 // todo minify ids when they are 4+ chars
 

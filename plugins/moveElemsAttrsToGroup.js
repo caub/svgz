@@ -1,5 +1,4 @@
-const {walk} = require('../utils');
-const {inheritableAttrs} = require('./_collections');
+const {walkReverse, inheritableAttrs} = require('../util');
 
 const inheritAttrs = new Set(inheritableAttrs);
 inheritAttrs.delete('transform'); // except transform
@@ -8,7 +7,7 @@ inheritAttrs.delete('transform'); // except transform
 module.exports = function moveElemsAttrsToGroup(svg) {
 
 	// walk reverse, to process children first
-	walk(svg, el =>  {
+	walkReverse(svg, el =>  {
 
 		if (el.nodeName=='g' && el.childElementCount>0) { // svgo does >1 but let's try to put up higher (todo tests)
 			const map = new Map(); // attr name => [attrs values]
@@ -37,7 +36,7 @@ module.exports = function moveElemsAttrsToGroup(svg) {
 			});
 		}
 
-	}, true);
+	});
 }
 
 

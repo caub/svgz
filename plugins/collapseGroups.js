@@ -1,10 +1,9 @@
-const {walk} = require('../utils');
-const {inheritableAttrs, elemsGroups:{animation:animationElems}} = require('./_collections');
+const {walkReverse, inheritableAttrs, elemsGroups:{animation:animationElems}} = require('../util');
 
 module.exports = function moveGroupAttrsToElems(svg) {
 
 	// walk reverse, to process children first
-	walk(svg, el =>  {
+	walkReverse(svg, el =>  {
 
 		let g = el.lastElementChild;
 
@@ -60,7 +59,7 @@ module.exports = function moveGroupAttrsToElems(svg) {
 			g = previous;
 		}
 		
-	}, true);
+	});
 
 }
 
