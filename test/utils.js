@@ -74,6 +74,7 @@ const data = [2.003, -1.21, 8.3, 9.3, -6.667, 3.333, 10, -20, 33.406868,3.1426,5
 
 const rounder = x => round(x, 1e2);
 
+/*
 assert.deepEqual(
 	data.map(rounder),
 	toAbsolute(Object.assign(toRelative(data), {'-1':0, '-2':0})).map(rounder)
@@ -89,6 +90,7 @@ assert.deepEqual(
 	data.map(rounder).slice(-2),
 	toAbsolute(Object.assign(toRelativeRound(data, 1e2), {'-1':0, '-2':0})).map(rounder).slice(-2)
 );
+*/
 
 assert.deepEqual(
 	parsePathData('m0,.2A25,30,20,1,1,7,8l-8-7m20,-10v-40M4,4l2.2 6.3-16.3.2h8-2zl50'),

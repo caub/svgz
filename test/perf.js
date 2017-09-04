@@ -79,6 +79,18 @@ console.timeEnd('svgz');
 console.log('svgz', result.length);
 
 /*
+on test.svg:
+initial 28106
+svgz: 334.090ms
+svgz 23633
+ ✓ ok
+svgo: 723.714ms
+svgo 23760
+
+*/
+
+
+/*
 on money.svg (1MB)
 initial 1011684
 svgz: 23007.073ms
@@ -88,15 +100,6 @@ svgo 989458
 svgo 425684 (with all plugins)
 */
 
-
-/*
-on test.svg:
-initial 28106
-svgz: 345.852ms
-svgz 23761
-svgo: 713.234ms
-svgo 23760
-*/
 
 // console.log(result);
 

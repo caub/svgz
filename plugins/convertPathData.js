@@ -1,4 +1,4 @@
-const {round, parsePathData, stringifyNumbers, toRelative} = require('../util');
+const {parsePathData, toAbsolute, stringifyPath} = require('../util');
 
 module.exports = function convertPathData(svg, {precision}) {
 
@@ -10,18 +10,9 @@ module.exports = function convertPathData(svg, {precision}) {
 
 			// todo process, shrink repeated, etc..
 
+			toAbsolute(pathData);
 
-			// round (shoud test if relative/abs segments are shorter here)
-			for (let i=0; i<pathData.length; i++) {
-				const data = pathData[i];
-				if (data.values) {
-					for (let j=0; j<data.values.length; j++) {
-						data.values[j] = round(data.values[j], precision);
-					}
-				}
-			}
-
-			path.setAttribute('d', pathData.map(seg => seg.type + stringifyNumbers(seg.values || [])).join(''));
+			path.setAttribute('d', stringifyPath(pathData));
 		}
 		
 	});

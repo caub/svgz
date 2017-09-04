@@ -40,37 +40,29 @@ exports.parseNumbers = parseNumbers;
 // 	return (x<0 ? '-' : '')+ n + 'e' + p;
 // }
 
+// possibly improve with exponent + float short form (but exponent should be rare, coordinates are normally <1000)
 exports.stringifyNumbers = numbers => {
-	if (!numbers.length) return '';
+	let result = '';
 
-	const first = numbers[0];
-	let result = first > -1 && first < 0 ? (first+'').slice(2) :
-		first > 0 && first < 1 ? (first+'').slice(1) :
-		first + '';
-
-	let seenFloat = !Number.isInteger(first);
-	// let seenExponent = false;
-
-	for (let i = 1; i < numbers.length; i++) {
+	for (let i = 0; i < numbers.length; i++) {
 		const x = numbers[i];
 		if (x < 0) {
 			if (x > -1) {
 				result += '-' + (x+'').slice(2);
-				seenFloat = true;
 			} else {
 				result += x;
-				seenFloat = !Number.isInteger(x);
 			}
 		} else {
 			if (x > 0 && x < 1) {
-				if (!seenFloat) {
-					result += ','
+				if (Number.isInteger(numbers[i-1])) {
+					result += ',';
 				}
 				result += (x+'').slice(1);
-				seenFloat = true;
 			} else {
-				result += ',' + x;
-				seenFloat = !Number.isInteger(x);
+				if (i > 0) {
+					result += ',';
+				}
+				result += x;
 			}
 		}
 	}
