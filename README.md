@@ -37,7 +37,7 @@ fs.writeFileSync('./test.min.svg', result);
 | addDefaultFonts | ensure fallbacks font-family, useful when using web-fonts |  |
 
 ### Todos:
-
+- improve jsdom's getComputedSyle to work with presentational hints (`<path stroke="blue"`) and inherited attributes)
 - minifyStyles
 - removeUselessStrokeAndFills
 - removeEmptyTexts

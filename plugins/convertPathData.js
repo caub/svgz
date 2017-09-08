@@ -1,6 +1,13 @@
 const {parsePathData, toAbsolute, stringifyPath} = require('../util');
 
-module.exports = function convertPathData(svg, {precision}) {
+module.exports = function convertPathData(svg, {
+	precision, 
+	transformPrecision = 1e5,
+	makeArc: {
+		threshold=2.5, // coefficient of rounding error
+		tolerance=.5 // percentage of radius
+	} = {}
+}) {
 
 	svg.querySelectorAll('path').forEach(path => {
 
@@ -8,7 +15,7 @@ module.exports = function convertPathData(svg, {precision}) {
 		if (d) {
 			const pathData = parsePathData(d);
 
-			// todo process, shrink repeated, etc..
+			// todo applyTransforms (see Readme#todos)
 
 			toAbsolute(pathData);
 
