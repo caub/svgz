@@ -37,7 +37,7 @@ fs.writeFileSync('./test.min.svg', result);
 | addDefaultFonts | ensure fallbacks font-family, useful when using web-fonts |  |
 
 ### Todos:
-- improve jsdom's getComputedSyle to work with presentational hints (`<path stroke="blue"`) and inherited attributes)
+- improve jsdom's getComputedSyle to work with [presentational attributes](https://www.w3.org/TR/SVG2/styling.html#PresentationAttributes) (`<path stroke="blue"`) and inherited attributes) or directly use [nwsapi on top of sax](https://github.com/caub/nwsapi/blob/test/test/unit.js)
 - minifyStyles
 - removeUselessStrokeAndFills
 - removeEmptyTexts
